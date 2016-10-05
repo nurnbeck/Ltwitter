@@ -1,3 +1,11 @@
+/*
+Copyright (c) 2016 Team Hurricane, CMPUT301, University of Alberta - All Rights Reserved.
+Ypu may use, distribute, and copy all or parts of this code under terms and conditions of
+University of Alberta and the code of Student Behaviour.
+You can find a copy of Licence at http://www.github.com/TeamHurricane/.....
+For further information, contact me at nbeck@ualberta.ca
+ */
+
 package ca.ualberta.cs.lonelytwitter;
 
 import java.io.BufferedReader;
@@ -22,17 +30,40 @@ import android.widget.ListView;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
+/*
+*<p>This is the main view class of LonelyTwitter project. It handles all
+* user interactions as well as file manipulations.<p/>
+* @since 1.0
+* @see NormalTweet
+* <ol>
+* 	<li> an item <\li>
+* 	<li> another item <\li>
+* <\ol>
+* @see java.io.FileNotFoundException
+* @author Nolan Beck
+*
+*/
+
+/**
+ * The type Lonely twitter activity.
+ */
 public class LonelyTwitterActivity extends Activity {
 
+/*
+*this is the file that is being loaded / saved and contains all tweets.
+*@see #LoadFromFile()
+*@see #SaveInFile()
+ */
 	private static final String FILENAME = "file.sav";
 	private EditText bodyText;
 	private ListView oldTweetsList;
-
 	private ArrayList<Tweet> tweetList = new ArrayList<Tweet>();
 
 	private ArrayAdapter<Tweet> adapter;
 
-	/** Called when the activity is first created. */
+	/** Called when the activity is first created. takes parameter
+     * of the previously saved instance.
+     * */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -70,15 +101,19 @@ public class LonelyTwitterActivity extends Activity {
 		});
 	}
 
+    /*
+    the enables our adapter and loads our tweets from memory
+     */
 	@Override
 	protected void onStart() {
 		super.onStart();
 		loadFromFile();
-		adapter = new ArrayAdapter<Tweet>(this,
-				R.layout.list_item, tweetList);
+		adapter = new ArrayAdapter<Tweet>(this, R.layout.list_item, tweetList);
 		oldTweetsList.setAdapter(adapter);
 	}
-
+/*
+this method loads tweets from FILE_NAME (file.sav), and laods into adapter
+ */
 	private void loadFromFile() {
 		try {
 			FileInputStream fis = openFileInput(FILENAME);
@@ -96,7 +131,11 @@ public class LonelyTwitterActivity extends Activity {
 			tweetList = new ArrayList<Tweet>();
 		}
 	}
-	
+	/*
+	saves our tweets in a file with GSON
+	throws FileNotFoundException and
+	IOException
+	 */
 	private void saveInFile() {
 		try {
 			FileOutputStream fos = openFileOutput(FILENAME,
